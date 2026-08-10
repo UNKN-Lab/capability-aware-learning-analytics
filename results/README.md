@@ -58,7 +58,12 @@ generalizes to all datasets, tasks, prompts, or models.
 
 ## Provenance and review
 
-The CSV values were transcribed from the final aggregate reports retained in
-the lab-internal repository. Raw evidence remains internal for audit and privacy
-review. Before citing these files in a publication, verify that the repository
-release tag and paper tables use identical values.
+The paper-facing values reproduce the submitted thesis report snapshot. Raw
+evidence remains internal for audit and privacy review. The UCI task-availability
+row is retained as reported: 24 executable, 6 partial, 22 insufficient, and
+48.08% executable coverage. The reported percentage is arithmetically
+inconsistent with 24/52, which is 46.15%. Both the reported and recomputed values
+are exposed in the machine-readable CSV so the discrepancy is not hidden.
+
+Before citing these files in another publication, verify that the repository
+release tag and the publication tables use the intended snapshot.

@@ -28,11 +28,16 @@ The same fixed registry of 52 analytical tasks was evaluated for both datasets.
 
 | Dataset | Executable | Partial | Insufficient data | Executable coverage |
 | --- | ---: | ---: | ---: | ---: |
-| UCI Portuguese | 25 | 5 | 22 | 48.08% |
+| UCI Portuguese | 24 | 6 | 22 | 48.08% |
 | OULAD | 44 | 8 | 0 | 84.62% |
 
 The difference reflects dataset-specific populated capabilities. It should not
 be interpreted as a difference in the number of declared tasks.
+
+The UCI row reproduces the submitted report as written. Its reported coverage
+is arithmetically inconsistent with the reported count because 24/52 is 46.15%,
+not 48.08%. The machine-readable CSV includes both values. This discrepancy
+must be resolved before using the percentage in a new publication.
 
 ## AI explanation quality
 
