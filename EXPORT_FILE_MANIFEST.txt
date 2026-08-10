@@ -5,12 +5,6 @@ AIService\requirements.txt
 AIService\safety.py
 AIService\schemas.py
 AIService\strategies\__init__.py
-AIService\strategies\__pycache__\__init__.cpython-312.pyc
-AIService\strategies\__pycache__\base.cpython-312.pyc
-AIService\strategies\__pycache__\factory.cpython-312.pyc
-AIService\strategies\__pycache__\other_strategies.cpython-312.pyc
-AIService\strategies\__pycache__\task_aware_v3.cpython-312.pyc
-AIService\strategies\__pycache__\trend_strategy.cpython-312.pyc
 AIService\strategies\base.py
 AIService\strategies\factory.py
 AIService\strategies\other_strategies.py
@@ -192,4 +186,12 @@ Frontend\tests\chartAdapters.phase3.test.mjs
 Frontend\tests\dashboardUrlState.test.mjs
 Frontend\vite.config.js
 README.md
+results\README.md
+results\summary\ai_explanation_quality.csv
+results\summary\mapping_accuracy.csv
+results\summary\paper_results.md
+results\summary\system_performance_ai.csv
+results\summary\system_performance_backend.csv
+results\summary\system_performance_import.csv
+results\summary\task_availability.csv
 SECURITY.md

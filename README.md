@@ -1,9 +1,15 @@
-# Smart Learning Analytics Dashboard
+# Capability-Aware Learning Analytics
 
-Smart Learning Analytics Dashboard is a research prototype for importing
-educational datasets, mapping them to a canonical schema, executing analytical
-tasks, rendering role-specific visualizations, and generating structured
-AI-assisted explanations.
+*Evidence-Grounded AI Explanation for Heterogeneous Educational Data*
+
+Capability-Aware Learning Analytics is a research prototype for heterogeneous
+educational data. It maps imported datasets to a canonical educational schema,
+validates which analytical tasks are supported by the available evidence,
+executes deterministic analyses, renders role-specific visualizations, and
+generates structured, evidence-grounded AI explanations.
+
+This repository provides the public-facing implementation and aggregate
+evaluation results accompanying the research paper.
 
 ## Architecture
 
@@ -95,11 +101,15 @@ python -m unittest discover -s AIService/tests -p "test_*.py"
 
 Raw datasets, record-level outputs, model prompts, detailed judge artifacts,
 and internal logs are not distributed in this repository. Public examples must
-use synthetic or appropriately licensed data. Reviewed aggregate results and
-their reproduction instructions will be published separately under `results/`.
+use synthetic or appropriately licensed data. Reviewed aggregate results,
+scope notes, and machine-readable paper tables are available under
+[`results/`](results/).
 
 ## Project status
 
-This repository is being prepared for an initial research-code release. The
-public license, citation metadata, reviewed result bundle, and fully
-self-contained example fixtures must be completed before release.
+This repository contains the public-facing research prototype and reviewed
+aggregate evaluation results. Raw datasets, detailed evaluation artifacts,
+model logs, and internal research documents are maintained separately.
+
+A public license, citation metadata, and self-contained example fixtures will
+be added before the official open-source release.

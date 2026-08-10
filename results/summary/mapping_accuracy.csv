@@ -1,0 +1,4 @@
+dataset,total_fields,mappable_fields,exact,near_correct,wrong,unknown,correctly_excluded,exact_accuracy_percent,usable_rate_percent
+UCI Portuguese,33,31,31,0,0,0,2,100.00,100.00
+OULAD,43,43,28,11,4,0,0,65.12,90.70
+Combined,76,74,59,11,4,0,2,79.73,94.59
