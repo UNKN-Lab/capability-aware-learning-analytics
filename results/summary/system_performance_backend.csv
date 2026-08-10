@@ -1,0 +1,7 @@
+scenario,dataset,runs,average_ms,p50_ms,p95_ms,maximum_ms,sequential_throughput_requests_per_second,error_rate_percent
+Task Availability,UCI,30,841.282,785.171,1249.040,1275.836,1.187,0
+Task Availability,OULAD,30,28790.822,26130.289,31048.256,91670.026,0.035,0
+Simple Analytics A-B02,UCI,30,16.761,16.021,26.149,37.832,59.003,0
+Simple Analytics A-B02,OULAD,30,66.890,62.630,102.880,115.171,14.926,0
+Trend Analytics S-T01,UCI,30,59.235,41.613,71.140,548.506,16.839,0
+Trend Analytics S-T01,OULAD,30,107.205,106.259,138.737,139.987,9.317,0

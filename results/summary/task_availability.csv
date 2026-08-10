@@ -1,0 +1,3 @@
+dataset,run_utc,total_tasks,executable,partial,insufficient_data,unsupported,structural_fail,semantic_fail,analytical_warn,data_sufficiency_fail,high_confidence,low_confidence,executable_coverage_percent
+UCI Portuguese,2026-06-21T17:15:19.873Z,52,25,5,22,0,0,27,0,22,30,22,48.08
+OULAD,2026-06-21T17:15:33.670Z,52,44,8,0,0,0,8,0,0,52,0,84.62

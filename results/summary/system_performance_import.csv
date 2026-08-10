@@ -1,0 +1,3 @@
+scenario,dataset,runs,input_scope,average_ms,p50_ms,p95_ms,maximum_ms,average_rows_per_second,error_rate_percent
+API import,UCI,10,6490 source rows total,2408.664,2161.472,4413.060,4413.060,289.229,0
+Full load,OULAD,1,10655280 raw clickstream rows,1028042.561,1028042.561,1028042.561,1028042.561,10364.629,0

@@ -95,11 +95,12 @@ python -m unittest discover -s AIService/tests -p "test_*.py"
 
 Raw datasets, record-level outputs, model prompts, detailed judge artifacts,
 and internal logs are not distributed in this repository. Public examples must
-use synthetic or appropriately licensed data. Reviewed aggregate results and
-their reproduction instructions will be published separately under `results/`.
+use synthetic or appropriately licensed data. Reviewed aggregate results,
+scope notes, and machine-readable paper tables are available under
+[`results/`](results/).
 
 ## Project status
 
 This repository is being prepared for an initial research-code release. The
-public license, citation metadata, reviewed result bundle, and fully
-self-contained example fixtures must be completed before release.
+public license, citation metadata, and fully self-contained example fixtures
+must be completed before release.
