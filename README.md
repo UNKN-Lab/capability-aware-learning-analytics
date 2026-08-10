@@ -120,3 +120,22 @@ model logs, and internal research documents are maintained separately.
 
 A public license, citation metadata, and self-contained example fixtures will
 be added before the official open-source release.
+## Citation
+
+This repository accompanies the manuscript *“Capability-Aware Learning
+Analytics with Evidence-Grounded AI Explanation for Heterogeneous Educational
+Data,”* which is currently under review at FDSE 2026.
+
+If you use this repository in your research, please cite:
+
+```bibtex
+@misc{nguyenluong2026capabilityaware,
+  author       = {Nguyen-Luong, Gia-Bao and Le-Thi, Ngoc-Chau and
+                  Tran, Hung-Nghiep},
+  title        = {Capability-Aware Learning Analytics with
+                  Evidence-Grounded {AI} Explanation for Heterogeneous
+                  Educational Data},
+  year         = {2026},
+  howpublished = {Manuscript under review at FDSE 2026},
+  url          = {https://github.com/UNKN-Lab/capability-aware-learning-analytics}
+}
