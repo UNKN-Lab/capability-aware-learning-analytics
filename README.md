@@ -97,6 +97,13 @@ Set-Location ..
 python -m unittest discover -s AIService/tests -p "test_*.py"
 ```
 
+## Reproducing the paper results
+
+The public reproduction package reconstructs the paper-facing aggregate tables
+from sanitized evaluation records and documents fresh reruns from the official
+UCI and OULAD datasets. See [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for the
+scope, commands, expected outputs, and reproducibility boundaries.
+
 ## Data and results
 
 Raw datasets, record-level outputs, model prompts, detailed judge artifacts,

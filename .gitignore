@@ -14,6 +14,8 @@ venv/
 # Runtime data
 uploads/
 *.log
+Docs/evaluation_logs/
+reproducibility/generated/
 
 # Editors and operating systems
 .vscode/

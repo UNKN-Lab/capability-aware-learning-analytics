@@ -1,9 +1,11 @@
-# Public evaluation results
+# Capability-Aware Learning Analytics: public evaluation results
 
 This directory contains reviewed aggregate results used to support the paper and
-thesis claims for the Smart Learning Analytics Dashboard. It intentionally does
-not contain record-level judge outputs, prompts, model responses, student-level
-data, private evaluation logs, or internal workbooks.
+thesis claims for Capability-Aware Learning Analytics. It intentionally does
+not contain raw judge outputs, prompts, model responses, student-level data,
+private evaluation logs, or internal workbooks. The public reproduction package
+contains only sanitized field-level classifications, task-level availability
+statuses, and task-pair scores needed to recompute the aggregate tables.
 
 ## Result scope
 
@@ -64,6 +66,10 @@ row is retained as reported: 24 executable, 6 partial, 22 insufficient, and
 48.08% executable coverage. The reported percentage is arithmetically
 inconsistent with 24/52, which is 46.15%. Both the reported and recomputed values
 are exposed in the machine-readable CSV so the discrepancy is not hidden.
+
+The frozen UCI task records contain 28 semantic-layer failures. The
+machine-readable table uses this record-derived count; an earlier transcribed
+summary value of 27 should not be used.
 
 Before citing these files in another publication, verify that the repository
 release tag and the publication tables use the intended snapshot.

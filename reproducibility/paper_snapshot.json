@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "snapshot_id": "paper-results-v1-2026-06-21",
+  "paper_title": "Capability-Aware Learning Analytics with Evidence-Grounded AI Explanation for Heterogeneous Educational Data",
+  "sanitization": {
+    "included": [
+      "field-level mapping classifications",
+      "task-level availability statuses",
+      "task-pair final scores and severity labels"
+    ],
+    "excluded": [
+      "source dataset rows",
+      "student-level records",
+      "raw model prompts",
+      "raw model responses",
+      "judge rationales",
+      "private execution logs"
+    ]
+  },
+  "task_availability": {
+    "source_snapshot": "submitted_thesis_report",
+    "datasets": {
+      "UCI Portuguese": {
+        "reported_executable_coverage_percent": "48.08"
+      },
+      "OULAD": {
+        "reported_executable_coverage_percent": "84.62"
+      }
+    }
+  },
+  "ai_explanation_quality": {
+    "datasets": {
+      "UCI Portuguese": {
+        "run_utc": "2026-06-21T13:34:01.901Z"
+      },
+      "OULAD": {
+        "run_utc": "2026-06-21T21:15:11.527Z"
+      }
+    }
+  },
+  "sanitized_artifacts": [
+    {
+      "path": "inputs/mapping_ground_truth.csv",
+      "rows": 76,
+      "sha256": "406a9adcbc82c2ad573f57f12d2c5bd7eabd3f55236489b417ec5ab11508ba5b"
+    },
+    {
+      "path": "inputs/mapping_snapshot.csv",
+      "rows": 76,
+      "sha256": "22e211ed87c01bd1f6bad61dfa58af46ffe3a4ac696cc52a693feb5a27f63fd7"
+    },
+    {
+      "path": "inputs/task_availability_snapshot.csv",
+      "rows": 104,
+      "sha256": "3cae4f59f8c4d2a424a508567f1897a58f750ebf90452add91773825e64d4f28"
+    },
+    {
+      "path": "inputs/ai_explanation_pair_scores.csv",
+      "rows": 68,
+      "sha256": "63180567caf178d971046d4895d415e0d4f8c91925065c690572fd5df7d34e2a"
+    }
+  ],
+  "internal_source_artifact_hashes": [
+    {
+      "logical_name": "mapping_accuracy_evaluation.json",
+      "sha256": "43c113d88801f22729f398ba9783adee1d52cd471337dd207ec4864562fcfff1"
+    },
+    {
+      "logical_name": "task_availability_uci_official.json",
+      "sha256": "60db7c15a289b3ddece50aa595a7c9f09298c980ff7fd16d233555f1213b2c3d"
+    },
+    {
+      "logical_name": "task_availability_oulad_official.json",
+      "sha256": "6315f978041c6c6b2f5e916e254091a814d3d5a489473326195753c704bb42f3"
+    },
+    {
+      "logical_name": "paired_mode_comparison_uci_official.json",
+      "sha256": "a223dfd018057def67b2d24d74ef08a63da2d55638b36e035813d1c28c6351c7"
+    },
+    {
+      "logical_name": "paired_mode_comparison_oulad_official.json",
+      "sha256": "e39ab883bcff76fc271e443c86f2f345e3cd247cc07b975fdf1f08d42763c99a"
+    }
+  ]
+}
