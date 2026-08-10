@@ -1,0 +1,486 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============================================================
+// NORMALIZED RELATIONAL SCHEMA — ERD v2.3
+// Decisions applied:
+//   - has_romantic / has_extracurricular / has_paid_class (diagram naming)
+//   - engagement.log_click_score (renamed from engagement_score to avoid collision with old schema)
+//   - In-table FE fields only: no flat tables, no cross-table FE layer (per Section 3.2 of system_design.md)
+// ============================================================
+
+// -------------------------------------------------------
+// 1. STUDENT
+// -------------------------------------------------------
+model Student {
+  student_id     String @id
+  batch_id       String
+  source_dataset String
+
+  // Demographic
+  gender         String?
+  age_years      Int?
+  age_group      String?
+  region         String?
+  residence_area String?
+
+  // UCI-specific demographic
+  school      String?
+  family_size String?
+
+  // Academic background
+  highest_education String?
+
+  // Socioeconomic
+  socioeconomic_band String?
+  imd_score_numeric  Float?
+  disability_flag    Boolean?
+
+  // Intent & Support flags
+  higher_education_intent_flag Boolean?
+  internet_access_flag         Boolean?
+  school_support_flag          Boolean?
+  family_support_flag          Boolean?
+
+  // Family background (UCI-sourced)
+  mother_education_level     String?
+  father_education_level     String?
+  mother_job                 String?
+  father_job                 String?
+  guardian_type              String?
+  parent_cohabitation_status String?
+
+  // Lifestyle & behavior (UCI-sourced)
+  travel_time         Int?
+  free_time           Int?
+  go_out_freq         Int?
+  alcohol_weekday     Int?
+  alcohol_weekend     Int?
+  health_status       Int?
+  family_relation     Int?
+  has_romantic        Boolean?
+  has_extracurricular Boolean?
+  has_paid_class      Boolean?
+
+  // --- Background profile snapshot [FE] ---
+  // Computed from student demographic data at ETL time (per-student, dataset-specific)
+  lifestyle_risk_score   Float? // UCI only. norm(alc_weekday+alc_weekend)×0.4 + norm(go_out)×0.3 + norm(5-health)×0.3
+  support_score          Float? // UCI only. (school_sup + fam_sup + paid + internet) / 4
+  social_balance_score   Float? // UCI only. norm(free_time)×0.5 - norm(go_out)×0.3 - norm(alc_weekday)×0.2
+  family_stability_score Float? // UCI only. norm(fam_rel)×0.5 + (cohabitation=T)×0.3 + norm(max_parent_edu)×0.2
+  disadvantage_score     Float? // Dataset-specific socioeconomic disadvantage score normalized to 0..1
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  // Relations
+  batch               ImportBatch          @relation(fields: [batch_id], references: [batch_id], onDelete: Cascade)
+  enrollments         Enrollment[]
+  assessment_results   AssessmentResult[]
+  engagements         Engagement[]
+
+  @@index([batch_id])
+  @@index([source_dataset])
+  @@map("student")
+}
+
+// -------------------------------------------------------
+// 2. COURSE
+// -------------------------------------------------------
+model Course {
+  course_id      String @id
+  batch_id       String
+  source_dataset String
+
+  course_name  String?
+  subject_area String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  // Relations
+  batch   ImportBatch @relation(fields: [batch_id], references: [batch_id], onDelete: Cascade)
+  classes Class[]
+
+  @@index([batch_id])
+  @@map("course")
+}
+
+// -------------------------------------------------------
+// 3. CLASS
+// -------------------------------------------------------
+model Class {
+  class_id       String @id
+  batch_id       String
+  course_id      String
+  source_dataset String
+
+  class_run     String?
+  semester      String?
+  academic_year String?
+
+  // OULAD: module_presentation_length. NULL for UCI.
+  duration_days Int?
+
+  delivery_mode String?
+  platform      String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  // Relations
+  batch               ImportBatch          @relation(fields: [batch_id], references: [batch_id], onDelete: Cascade)
+  course              Course               @relation(fields: [course_id], references: [course_id])
+  enrollments         Enrollment[]
+  assessments         Assessment[]
+  events              Event[]
+
+  @@index([batch_id])
+  @@index([course_id])
+  @@unique([batch_id, course_id, class_run])
+  @@map("class")
+}
+
+// -------------------------------------------------------
+// 4. ENROLLMENT
+// -------------------------------------------------------
+model Enrollment {
+  enrollment_id  String @id
+  batch_id       String
+  student_id     String
+  class_id       String
+  source_dataset String
+
+  // INT offset (raw from OULAD). NULL for UCI.
+  enrollment_start_day Int?
+  enrollment_end_day   Int?
+
+  final_outcome          String?
+  previous_attempt_count Int?
+  study_load_credits     Int?
+
+  // UCI raw behavioral fields (per enrollment context)
+  absences  Int?
+  studytime Int?
+
+  // [FE] Computed at ETL time — in-table, no JOIN required
+  // = ABS(enrollment_start_day) WHERE enrollment_start_day < 0. NULL if enrolled after class start or UCI.
+  registration_lead_time Int?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  // Relations
+  batch               ImportBatch          @relation(fields: [batch_id], references: [batch_id], onDelete: Cascade)
+  student             Student              @relation(fields: [student_id], references: [student_id])
+  class               Class                @relation(fields: [class_id], references: [class_id])
+  assessment_results   AssessmentResult[]
+  engagements         Engagement[]
+
+  @@index([batch_id])
+  @@index([student_id])
+  @@index([class_id])
+  @@index([student_id, class_id, source_dataset])
+  @@unique([batch_id, student_id, class_id])
+  @@map("enrollment")
+}
+
+// -------------------------------------------------------
+// 5. ASSESSMENT
+// -------------------------------------------------------
+model Assessment {
+  assessment_id  String @id
+  batch_id       String
+  class_id       String
+  source_dataset String
+
+  assessment_name  String?
+  assessment_type  String?
+  assessment_order Int?
+
+  // INT offset (raw from OULAD). NULL for UCI.
+  due_day Int?
+
+  weight_pct          Float?
+  is_final_assessment Boolean?
+
+  // Single dominant competency tag for this assessment.
+  // If multi-competency support is needed later, split to a bridge table.
+  competency_tag String?
+
+  // Computed: due_day / 7
+  week_of_class Int?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  // Relations
+  batch        ImportBatch @relation(fields: [batch_id], references: [batch_id], onDelete: Cascade)
+  class        Class        @relation(fields: [class_id], references: [class_id])
+  assessment_results AssessmentResult[]
+
+  @@index([batch_id])
+  @@index([class_id])
+  @@unique([batch_id, class_id, assessment_order])
+  @@map("assessment")
+}
+
+// -------------------------------------------------------
+// 6. ASSESSMENT_RESULT
+// -------------------------------------------------------
+model AssessmentResult {
+  result_id      String @id
+  batch_id       String
+  assessment_id  String
+  student_id     String
+  enrollment_id  String
+  source_dataset String
+
+  // score_raw: original score preserved for audit (UCI: 0-20, OULAD: 0-100)
+  score_raw        Float?
+  score_normalized Float?
+  pass_flag        Boolean?
+
+  submission_day        Int?
+
+  is_banked Boolean?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  // Relations
+  batch      ImportBatch @relation(fields: [batch_id], references: [batch_id], onDelete: Cascade)
+  assessment Assessment @relation(fields: [assessment_id], references: [assessment_id])
+  student    Student    @relation(fields: [student_id], references: [student_id])
+  enrollment Enrollment @relation(fields: [enrollment_id], references: [enrollment_id])
+
+  @@index([batch_id])
+  @@index([assessment_id])
+  @@index([student_id])
+  @@index([enrollment_id])
+  @@index([student_id, source_dataset])
+  @@unique([batch_id, enrollment_id, assessment_id])
+  @@map("assessment_result")
+}
+
+// -------------------------------------------------------
+// 7. EVENT
+// -------------------------------------------------------
+model Event {
+  event_id       String @id
+  batch_id       String
+  class_id       String
+  source_dataset String
+
+  resource_id   String?
+  resource_type String?
+
+  // OULAD: mapped from week_from/week_to. NULL for UCI.
+  available_from_week Int?
+  available_to_week   Int?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  // Relations
+  batch       ImportBatch   @relation(fields: [batch_id], references: [batch_id], onDelete: Cascade)
+  class       Class        @relation(fields: [class_id], references: [class_id])
+  engagements Engagement[]
+
+  @@index([batch_id])
+  @@index([class_id])
+  @@unique([batch_id, class_id, resource_id])
+  @@map("event")
+}
+
+// -------------------------------------------------------
+// 8. ENGAGEMENT
+// [F7] class_id removed — reachable via enrollment_id → enrollment.class_id
+// -------------------------------------------------------
+model Engagement {
+  engagement_id String @id
+  batch_id      String
+  event_id      String
+  student_id    String
+  enrollment_id String
+  source_dataset String
+
+  // INT offset (raw from OULAD). NULL for UCI.
+  event_day   Int?
+  week_number Int?
+
+  engagement_count Int?   // OULAD: sum_click
+  log_click_score  Float? // [FE] log(engagement_count + 1). Row-level click intensity
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  // Relations
+  batch      ImportBatch @relation(fields: [batch_id], references: [batch_id], onDelete: Cascade)
+  event      Event      @relation(fields: [event_id], references: [event_id])
+  student    Student    @relation(fields: [student_id], references: [student_id])
+  enrollment Enrollment @relation(fields: [enrollment_id], references: [enrollment_id])
+
+  @@index([batch_id])
+  @@index([event_id])
+  @@index([student_id])
+  @@index([enrollment_id])
+  @@index([week_number])
+  @@unique([batch_id, student_id, event_id, event_day])
+  @@map("engagement")
+}
+
+
+// -------------------------------------------------------
+// APP STATE (Singleton)
+// Only 1 row with id = 1 (upsert pattern)
+// -------------------------------------------------------
+model AppState {
+  id Int @id @default(1)
+
+  active_dataset_id     String?
+  active_dataset_name   String?
+  active_dataset_type   String?
+  active_dataset_source String?
+  active_dataset_set_at DateTime?
+
+  is_first_use Boolean  @default(true)
+  updated_at   DateTime @updatedAt
+
+  @@map("app_state")
+}
+
+// -------------------------------------------------------
+// IMPORT BATCH
+// -------------------------------------------------------
+model ImportBatch {
+  batch_id       String   @id
+  batch_name     String
+  source_dataset String // UCI | OULAD | CUSTOM
+  learning_mode  String? // 'online' | 'offline' | 'hybrid'
+  imported_at    DateTime
+  is_active      Boolean  @default(false)
+  is_sample      Boolean  @default(false)
+  row_count      Int      @default(0)
+  status         String // completed | failed | processing | seeded
+
+  students           Student[]
+  courses            Course[]
+  classes            Class[]
+  enrollments        Enrollment[]
+  assessments        Assessment[]
+  assessment_results AssessmentResult[]
+  events             Event[]
+  engagements        Engagement[]
+
+  @@map("import_batch")
+}
+
+// -------------------------------------------------------
+// ALIAS MEMORY
+// Replaces learnedAliases.json (filesystem) with a shared DB table.
+//
+// Design decisions:
+//   - normalized_key is the lookup key (lowercase, non-alphanum→space).
+//     E.g. "Student_ID" → "student id". Stored as UNIQUE to prevent
+//     duplicate rows per raw column pattern.
+//   - learned_count tracks how many times a user confirmed this mapping;
+//     higher count = higher trust for future suggestions.
+//   - If a user remaps the same key to a DIFFERENT canonical_field,
+//     the row is updated and learned_count resets to 1 (new intent wins).
+//   - No FK to any domain table — alias memory is dataset-agnostic and
+//     should persist across batch imports.
+// -------------------------------------------------------
+model AliasMemory {
+  id              Int      @id @default(autoincrement())
+  normalized_key  String   @unique   // e.g. "student id", "id student"
+  raw_column      String             // original column name for display
+  canonical_field String             // e.g. "student_id"
+  learned_count   Int      @default(1)
+  last_used_at    DateTime @default(now())
+  created_at      DateTime @default(now())
+
+  @@index([normalized_key])
+  @@map("alias_memory")
+}
+
+// -------------------------------------------------------
+// UPLOAD SESSION
+// Stores import-wizard state so session survives backend restarts.
+// -------------------------------------------------------
+model UploadSession {
+  session_id  String   @id
+  payload     Json
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  expires_at  DateTime
+
+  @@index([expires_at])
+  @@map("upload_session")
+}
+
+// -------------------------------------------------------
+// AI EXPLANATION LOG
+// Observability layer for the AI explanation pipeline.
+//
+// Every call to POST /api/ai/explain produces one row here,
+// regardless of success or degradation.
+//
+// Design decisions:
+//   - task_id is a plain String (not FK) — registry is in-memory JSON,
+//     not a DB table. Avoids schema coupling.
+//   - datasets_snapshot stores lightweight metadata (rowCount, nullPct),
+//     NOT full row data — avoids storage bloat.
+//   - explanation_text and structured_output are separate columns
+//     so we can query text alone without parsing JSON.
+//   - is_degraded = true means Python AI was unavailable and the
+//     Node backend returned a fallback response.
+// -------------------------------------------------------
+model AiExplanationLog {
+  log_id       String   @id @default(cuid())
+  created_at   DateTime @default(now())
+
+  // ── Request identity ──────────────────────────────────
+  execution_id  String   // correlates with analytics run (exec_xxx)
+  task_id       String   // e.g. "S-B01" — NOT a FK (registry is JSON)
+  student_id    String?  // null for cohort-level tasks
+
+  // ── AI strategy metadata (from taskRegistry at call time) ──
+  explanation_strategy String   // "trend" | "comparison" | ...
+  target_audience      String[] // ["student"] | ["instructor", "advisor"]
+  granularity          String?  // "weekly" | "per_assessment" | ...
+  aggregation_level    String?  // "student" | "cohort" | ...
+
+  // ── Call outcome ──────────────────────────────────────
+  is_degraded        Boolean  @default(false) // true = Python service was down
+  degraded_reason    String?                  // "TIMEOUT" | "SERVICE_UNAVAILABLE" | ...
+
+  // ── AI response quality ───────────────────────────────
+  confidence_level   String?  // "HIGH" | "MEDIUM" | "LOW"
+  confidence_reason  String?
+
+  // ── Output storage ────────────────────────────────────
+  explanation_text   String?  // plain summary for quick display / search
+  structured_output  Json?    // full AIExplainResponse body (insights[], recommendations[])
+  datasets_snapshot  Json?    // { labelName: { rowCount, nullPct } } — NOT full rows
+
+  // ── Latency tracking ──────────────────────────────────
+  latency_ms         Int?     // total proxy round-trip (Node → Python → Node)
+  python_latency_ms  Int?     // Python-only processing time
+
+  // ── Provenance ────────────────────────────────────────
+  model_version        String?  // e.g. "gpt-4o-mini-2024-07-18"
+  prompt_token_count   Int?
+  response_token_count Int?
+
+  @@index([execution_id])
+  @@index([task_id, created_at])
+  @@index([student_id])
+  @@index([is_degraded])
+  @@map("ai_explanation_log")
+}

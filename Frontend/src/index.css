@@ -1,0 +1,306 @@
+@import "tailwindcss";
+
+/* ─── CSS Reset nền tảng ─────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ─── Figma Theme Variables ─────────────────────────────────────────────── */
+:root {
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: oklch(0.145 0 0);
+  --card: #ffffff;
+  --card-foreground: oklch(0.145 0 0);
+  --primary: #059669;
+  --primary-foreground: #ffffff;
+  --secondary: oklch(0.95 0.0058 264.53);
+  --secondary-foreground: #030213;
+  --muted: #ececf0;
+  --muted-foreground: #717182;
+  --accent: #e9ebef;
+  --accent-foreground: #030213;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input-background: #f3f3f5;
+  --switch-background: #cbced4;
+  --ring: #059669;
+  --radius: 0.625rem;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ─── Project Design System ─────────────────────────────────────────────── */
+
+:root {
+  /* Light Mode - Emerald Theme */
+  --text: #475569;        /* slate-600 */
+  --text-h: #0f172a;      /* slate-900 */
+  --bg: #f8fafc;          /* slate-50 */
+  --card-bg: #ffffff;
+  --border: #e2e8f0;      /* slate-200 */
+  --code-bg: #f1f5f9;     /* slate-100 */
+
+  /* Primary Accent: Emerald */
+  --accent: #10b981;      /* emerald-500 */
+  --accent-bg: rgba(16, 185, 129, 0.1);
+  --accent-border: rgba(16, 185, 129, 0.3);
+
+  --social-bg: rgba(241, 245, 249, 0.6);
+  --shadow: rgba(0, 0, 0, 0.05) 0 10px 15px -3px, rgba(0, 0, 0, 0.02) 0 4px 6px -2px;
+
+  /* Typography */
+  --sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace;
+  --app-min-height: 100vh;
+  --desktop-shell-max-width: 1440px;
+  --desktop-nav-max-width: 1760px;
+  --desktop-nav-padding: clamp(12px, 1.5vw, 24px);
+  --desktop-shell-padding: clamp(16px, 2.2vw, 40px);
+  --desktop-hero-max-width: 980px;
+  --desktop-role-max-width: 1240px;
+  --desktop-data-max-width: 1120px;
+  --desktop-hero-title-size: clamp(1.82rem, 1.22rem + 1vw, 2.38rem);
+  --desktop-role-title-size: clamp(1.88rem, 1.2rem + 1.28vw, 2.72rem);
+  --desktop-body-text-size: clamp(0.82rem, 0.77rem + 0.16vw, 0.9rem);
+  --desktop-button-text-size: clamp(0.82rem, 0.77rem + 0.14vw, 0.9rem);
+  --desktop-button-pad-y: 9px;
+  --desktop-button-pad-x: clamp(18px, 1.6vw, 26px);
+  --desktop-mockup-max-height: min(calc(100dvh - 340px), 360px);
+  --desktop-role-card-header-pad: 22px 22px 16px;
+  --desktop-role-card-body-pad: 18px 22px 20px;
+  --desktop-role-card-header-gap: 12px;
+  --desktop-role-card-header-margin: 14px;
+  --desktop-role-card-icon-size: 56px;
+  --desktop-role-card-icon-radius: 18px;
+  --desktop-role-card-icon-glyph-size: 26px;
+  --desktop-role-card-badge-pad: 7px 11px;
+  --desktop-role-card-badge-size: 10px;
+  --desktop-role-card-title-size: 26px;
+  --desktop-role-card-desc-size: 13.5px;
+  --desktop-role-card-feature-gap: 9px;
+  --desktop-role-card-feature-pad-y: 7px;
+  --desktop-role-card-feature-box-size: 32px;
+  --desktop-role-card-feature-icon-size: 13px;
+  --desktop-role-card-feature-text-size: 12.5px;
+  --desktop-role-card-button-pad: 11px 14px;
+  --desktop-role-card-button-size: 13.5px;
+  --desktop-data-title-size: clamp(1.95rem, 1.42rem + 0.95vw, 2.55rem);
+  --desktop-data-subtitle-size: clamp(0.92rem, 0.88rem + 0.1vw, 1rem);
+  --desktop-data-page-pad-y: clamp(14px, 1.6vh, 24px);
+  --desktop-data-card-pad: 18px;
+  --desktop-data-empty-pad: 22px;
+
+  color-scheme: light;
+  color-scheme: only light;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@supports (min-height: 100dvh) {
+  :root {
+    --app-min-height: 100dvh;
+  }
+}
+
+/* ─── Base HTML/Body Reset ───────────────────────────────────────────────── */
+html {
+  height: 100%;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+  color-scheme: light;
+  color-scheme: only light;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  min-width: 320px;
+  overflow-x: hidden;   /* Ngăn tràn ngang */
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+  color-scheme: light;
+  color-scheme: only light;
+  color: var(--text);
+  background: var(--bg);
+}
+
+#root {
+  width: 100%;
+  margin: 0 auto;
+  min-height: var(--app-min-height);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button,
+input,
+select,
+textarea {
+  color-scheme: light;
+  color-scheme: only light;
+}
+
+.viewport-shell {
+  min-height: var(--app-min-height);
+}
+
+.desktop-shell {
+  width: min(100%, var(--desktop-shell-max-width));
+  margin-inline: auto;
+  padding-inline: var(--desktop-shell-padding);
+  box-sizing: border-box;
+}
+
+.desktop-shell--hero {
+  width: min(100%, var(--desktop-hero-max-width));
+}
+
+.desktop-shell--wide {
+  width: min(100%, var(--desktop-role-max-width));
+}
+
+.desktop-shell--nav {
+  width: min(100%, var(--desktop-nav-max-width));
+  padding-inline: var(--desktop-nav-padding);
+}
+
+.desktop-shell--data {
+  width: min(100%, var(--desktop-data-max-width));
+}
+
+.desktop-flow-center {
+  justify-content: center;
+}
+
+@media (min-width: 1024px) and (max-height: 920px) {
+  :root {
+    --desktop-shell-padding: clamp(12px, 1.6vw, 24px);
+    --desktop-hero-title-size: clamp(1.64rem, 1.12rem + 0.84vw, 2.12rem);
+    --desktop-role-title-size: clamp(1.7rem, 1.08rem + 1vw, 2.42rem);
+    --desktop-body-text-size: clamp(0.78rem, 0.74rem + 0.1vw, 0.85rem);
+    --desktop-button-text-size: clamp(0.78rem, 0.74rem + 0.08vw, 0.84rem);
+    --desktop-button-pad-y: 7px;
+    --desktop-button-pad-x: 18px;
+    --desktop-mockup-max-height: min(calc(100dvh - 292px), 320px);
+    --desktop-role-card-header-pad: 18px 18px 12px;
+    --desktop-role-card-body-pad: 14px 18px 16px;
+    --desktop-role-card-header-gap: 9px;
+    --desktop-role-card-header-margin: 10px;
+    --desktop-role-card-icon-size: 48px;
+    --desktop-role-card-icon-radius: 16px;
+    --desktop-role-card-icon-glyph-size: 22px;
+    --desktop-role-card-badge-pad: 5px 9px;
+    --desktop-role-card-badge-size: 9px;
+    --desktop-role-card-title-size: 22px;
+    --desktop-role-card-desc-size: 12.5px;
+    --desktop-role-card-feature-gap: 7px;
+    --desktop-role-card-feature-pad-y: 6px;
+    --desktop-role-card-feature-box-size: 28px;
+    --desktop-role-card-feature-icon-size: 12px;
+    --desktop-role-card-feature-text-size: 12px;
+    --desktop-role-card-button-pad: 10px 13px;
+    --desktop-role-card-button-size: 12.5px;
+    --desktop-data-title-size: clamp(1.75rem, 1.32rem + 0.72vw, 2.2rem);
+    --desktop-data-subtitle-size: clamp(0.88rem, 0.85rem + 0.06vw, 0.95rem);
+    --desktop-data-page-pad-y: 12px;
+    --desktop-data-card-pad: 16px;
+    --desktop-data-empty-pad: 18px;
+  }
+
+  .desktop-flow-center {
+    justify-content: flex-start;
+  }
+}
+
+/* ─── Typography Reset ───────────────────────────────────────────────────── */
+/* KHÔNG đặt font-size cố định cho h1/h2/h3/h4 tại đây
+   vì các page đã dùng clamp() responsive riêng.
+   Chỉ reset margin và đặt font-family. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--sans);
+  color: var(--text-h);
+  margin: 0;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+/* ─── Code Utilities ─────────────────────────────────────────────────────── */
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  background: var(--code-bg);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-8%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/* ==========================================================================
+   ⚡ Fixed Viewport Utilities for Analytics PowerBI Layout
+   ========================================================================== */
+
+/* Chỉ áp dụng giới hạn khung màn hình cho riêng không gian Workspace */
+.workspace-fixed-layout {
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden !important;
+}
+
+/* Custom scrollbar siêu nhỏ cho danh sách Task và AI Insight Panel con */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155; /* Slate-700 */
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #475569; /* Slate-600 */
+}

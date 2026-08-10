@@ -1,0 +1,36 @@
+{
+  "dataset_name": "custom_dataset_01",
+  "source_dataset": "CUSTOM",
+  "mapping_status": "confirmed",
+  "version": 1,
+  "confirmed_at": "2026-04-19T10:30:00Z",
+  "field_mappings": [
+    {
+      "id": "map_001",
+      "source_fields": ["id_student"],
+      "canonical_field": "student_id",
+      "transform": "direct_copy",
+      "status": "confirmed",
+      "confidence": 1.0,
+      "entity_scope": "student"
+    },
+    {
+      "id": "map_002",
+      "source_fields": ["gender"],
+      "canonical_field": "gender",
+      "transform": "normalize_gender",
+      "status": "confirmed",
+      "confidence": 0.99,
+      "entity_scope": "student"
+    },
+    {
+      "id": "map_003",
+      "source_fields": ["date_submitted"],
+      "canonical_field": "submission_day",
+      "transform": "convert_date_to_relative_day",
+      "status": "confirmed",
+      "confidence": 0.95,
+      "entity_scope": "assessment"
+    }
+  ]
+}
