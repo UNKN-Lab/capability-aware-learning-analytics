@@ -15,7 +15,9 @@ The public package supports two complementary workflows:
 The repository does not distribute source datasets, student-level records,
 raw model prompts, model responses, judge rationales, private logs, or internal
 workbooks. The sanitized records contain only the fields needed to recompute
-the reported aggregate statistics.
+the published mapping, availability, and overall-score summaries. The revised
+M4 inferential and dimension-level tables are released as aggregate CSV files;
+pair-level dimension scores remain internal and are not distributed.
 
 ## Requirements
 
@@ -58,13 +60,13 @@ The expected headline values are:
 | Exact mapping accuracy | 100.00% | 65.12% |
 | Usable mapping rate | 100.00% | 90.70% |
 | Executable tasks | 24/52 | 44/52 |
-| Baseline explanation mean | 6.78 | 6.96 |
-| Task-aware explanation mean | 8.84 | 8.51 |
-| Mean paired improvement | +2.06 | +1.54 |
+| First-20 explanation mean (SD) | 6.78 (2.16) | 6.96 (1.07) |
+| Task-aware explanation mean (SD) | 8.84 (1.01) | 8.51 (0.72) |
+| Mean paired improvement, 95% BCa CI | 2.06 [1.37, 3.03] | 1.54 [1.27, 1.92] |
 
-The submitted UCI task-availability snapshot reported 48.08% executable
-coverage. The reproducibility script also exposes the arithmetically recomputed
-value, 24/52 = 46.15%, so the discrepancy remains visible.
+Executable coverage is 24/52 = 46.15% for UCI Portuguese and
+44/52 = 84.62% for OULAD. Combined mapping interval estimates and full-precision
+explanation statistics are published under `results/summary/`.
 
 ## Obtain the datasets for fresh runs
 
@@ -152,6 +154,12 @@ expected to match the paper snapshot bit for bit.
 pair. It is sufficient to reproduce the published means, winner counts, ties,
 paired deltas, and error-severity counts. It contains no prompt, response,
 student record, or judge rationale.
+
+The public repository also provides the revised inferential results in
+`results/summary/ai_explanation_inferential_statistics.csv` and the mapping
+Wilson intervals in `results/summary/mapping_interval_estimates.csv`.
+Dimension-level values are aggregate-only because releasing the underlying
+task-level dimension scores would exceed the reviewed public-data boundary.
 
 A fresh AI generation and judge run is a replication rather than an exact
 reproduction. Provider-side model updates and service availability can change

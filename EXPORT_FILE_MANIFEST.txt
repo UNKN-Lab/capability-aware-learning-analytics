@@ -187,8 +187,10 @@ Frontend\tests\dashboardUrlState.test.mjs
 Frontend\vite.config.js
 README.md
 results\README.md
+results\summary\ai_explanation_inferential_statistics.csv
 results\summary\ai_explanation_quality.csv
 results\summary\mapping_accuracy.csv
+results\summary\mapping_interval_estimates.csv
 results\summary\paper_results.md
 results\summary\system_performance_ai.csv
 results\summary\system_performance_backend.csv

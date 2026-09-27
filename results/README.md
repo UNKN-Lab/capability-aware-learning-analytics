@@ -6,6 +6,9 @@ not contain raw judge outputs, prompts, model responses, student-level data,
 private evaluation logs, or internal workbooks. The public reproduction package
 contains only sanitized field-level classifications, task-level availability
 statuses, and task-pair scores needed to recompute the aggregate tables.
+The public summary additionally includes the aggregate inferential statistics
+reported in the revised paper. Pair-level dimension scores remain internal and
+are not included in this repository.
 
 ## Result scope
 
@@ -14,7 +17,7 @@ The published summaries cover four evaluation groups:
 1. automatic mapping accuracy against manually prepared field-level ground
    truth;
 2. task availability for the fixed registry of 52 analytical tasks;
-3. availability-gated comparison of baseline and task-aware AI explanations;
+3. availability-gated comparison of first-20 and task-aware AI explanations;
 4. sequential local-system performance measurements.
 
 The paper-facing interpretation is available in
@@ -43,7 +46,7 @@ than 52 pairs for each dataset.
 The internal evidence-preparation pipeline produced 208 mode-level evidence
 records before availability gating. This number must not be interpreted as 208
 officially scored records. Official scoring contains 48 UCI records and 88
-OULAD records, corresponding to 68 baseline/task-aware pairs.
+OULAD records, corresponding to 68 first-20/task-aware pairs.
 
 ## Reproducibility
 
@@ -60,12 +63,17 @@ generalizes to all datasets, tasks, prompts, or models.
 
 ## Provenance and review
 
-The paper-facing values reproduce the submitted thesis report snapshot. Raw
-evidence remains internal for audit and privacy review. The UCI task-availability
-row is retained as reported: 24 executable, 6 partial, 22 insufficient, and
-48.08% executable coverage. The reported percentage is arithmetically
-inconsistent with 24/52, which is 46.15%. Both the reported and recomputed values
-are exposed in the machine-readable CSV so the discrepancy is not hidden.
+The paper-facing values follow the revised paper snapshot. Raw evidence remains
+internal for audit and privacy review. UCI task availability comprises 24
+executable, 6 partial, and 22 insufficient tasks; executable coverage is
+therefore reported as 24/52 = 46.15%. OULAD executable coverage is
+44/52 = 84.62%.
+
+The aggregate M4 release reports sample SDs, paired mean differences, 95% BCa
+bootstrap intervals, exact Wilcoxon signed-rank results, matched-pairs
+rank-biserial correlations, dimension-level Holm adjustments, and Wilson
+intervals for the combined mapping proportions. These aggregates do not expose
+prompts, explanations, judge rationales, or task-level dimension scores.
 
 The frozen UCI task records contain 28 semantic-layer failures. The
 machine-readable table uses this record-derived count; an earlier transcribed

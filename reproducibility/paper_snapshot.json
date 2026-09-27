@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0.0",
-  "snapshot_id": "paper-results-v1-2026-06-21",
+  "schema_version": "1.1.0",
+  "snapshot_id": "paper-results-m4-2026-09-27",
   "paper_title": "Capability-Aware Learning Analytics with Evidence-Grounded AI Explanation for Heterogeneous Educational Data",
   "sanitization": {
     "included": [
@@ -18,10 +18,10 @@
     ]
   },
   "task_availability": {
-    "source_snapshot": "submitted_thesis_report",
+    "source_snapshot": "revised_paper_snapshot",
     "datasets": {
       "UCI Portuguese": {
-        "reported_executable_coverage_percent": "48.08"
+        "reported_executable_coverage_percent": "46.15"
       },
       "OULAD": {
         "reported_executable_coverage_percent": "84.62"
@@ -80,6 +80,10 @@
     {
       "logical_name": "paired_mode_comparison_oulad_official.json",
       "sha256": "e39ab883bcff76fc271e443c86f2f345e3cd247cc07b975fdf1f08d42763c99a"
+    },
+    {
+      "logical_name": "m4_statistics.json",
+      "sha256": "69cb9cfeed94ddfc3d9de8dee03b29453a7f3bed2d5e31e49ef287b9af4f0cb0"
     }
   ]
 }
