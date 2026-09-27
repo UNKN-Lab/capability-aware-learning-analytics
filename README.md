@@ -137,6 +137,22 @@ from sanitized evaluation records and documents fresh reruns from the official
 UCI and OULAD datasets. See [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for the
 scope, commands, expected outputs, and reproducibility boundaries.
 
+## Paper supplementary materials
+
+Additional implementation details accompanying the paper are available in the
+following supplementary materials:
+
+- [Canonical educational schema](Docs/paper_artifacts/canonical-schema.md)
+- [Evaluated 52-task catalogue](Docs/paper_artifacts/task-catalogue.md)
+- [Representative SQL task contracts](Docs/paper_artifacts/sql-contract-examples.md)
+
+The catalogue documents the frozen 52-task evaluation scope. The canonical
+schema and SQL-contract materials are derived from the corresponding
+version-controlled implementation files:
+
+- [`Backend/prisma/schema.prisma`](Backend/prisma/schema.prisma)
+- [`Backend/src/config/taskRegistry.json`](Backend/src/config/taskRegistry.json)
+
 ## Data and results
 
 Raw datasets, record-level outputs, model prompts, detailed judge artifacts,
