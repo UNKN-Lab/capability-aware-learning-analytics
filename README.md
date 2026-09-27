@@ -11,6 +11,39 @@ generates structured, evidence-grounded AI explanations.
 This repository provides the public-facing implementation and aggregate
 evaluation results accompanying the research paper.
 
+## How to cite
+
+If you found our work useful, please cite us.
+
+For the capability-aware learning analytics architecture, task-availability
+validation method, evidence-grounded AI explanation pipeline, or evaluation
+artifacts released in this repository, please cite:
+
+Gia-Bao Nguyen-Luong, Ngoc-Chau Le-Thi, and Hung-Nghiep Tran.
+*Capability-Aware Learning Analytics with Evidence-Grounded AI Explanation for
+Heterogeneous Educational Data*. Future Data and Security Engineering
+(FDSE 2026), Springer, 2026. DOI and online publication link forthcoming.
+
+```bibtex
+@inproceedings{nguyenluong2026capability,
+  author    = {Nguyen-Luong, Gia-Bao and
+               Le-Thi, Ngoc-Chau and
+               Tran, Hung-Nghiep},
+  title     = {Capability-Aware Learning Analytics with
+               Evidence-Grounded AI Explanation for
+               Heterogeneous Educational Data},
+  booktitle = {Future Data and Security Engineering},
+  publisher = {Springer},
+  year      = {2026},
+  note      = {Accepted at FDSE 2026}
+}
+```
+
+The publication URL and DOI will be added when the official Springer
+proceedings record becomes available. When using the UCI Student Performance
+dataset or OULAD, please also cite the corresponding original dataset
+publication.
+
 ## Architecture
 
 | Component | Technologies | Responsibility |
@@ -120,22 +153,3 @@ model logs, and internal research documents are maintained separately.
 
 A public license, citation metadata, and self-contained example fixtures will
 be added before the official open-source release.
-## Citation
-
-This repository accompanies the manuscript *“Capability-Aware Learning
-Analytics with Evidence-Grounded AI Explanation for Heterogeneous Educational
-Data,”* which is currently under review at FDSE 2026.
-
-If you use this repository in your research, please cite:
-
-```bibtex
-@misc{nguyenluong2026capabilityaware,
-  author       = {Nguyen-Luong, Gia-Bao and Le-Thi, Ngoc-Chau and
-                  Tran, Hung-Nghiep},
-  title        = {Capability-Aware Learning Analytics with
-                  Evidence-Grounded {AI} Explanation for Heterogeneous
-                  Educational Data},
-  year         = {2026},
-  howpublished = {Manuscript under review at FDSE 2026},
-  url          = {https://github.com/UNKN-Lab/capability-aware-learning-analytics}
-}
